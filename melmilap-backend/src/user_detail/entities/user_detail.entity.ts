@@ -25,10 +25,13 @@ export class UserDetail {
     
     @Column()
     father_name: string
+
+    @Column()
+    income: string
     
     @Column()
     grandfather_name: string
     
-    @OneToOne(() => User, (user: User) => user.user_details )
-    public user: User
+    @OneToOne(() => User, (user: User) => user )
+     user: User
  }

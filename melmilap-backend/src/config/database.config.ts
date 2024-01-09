@@ -14,7 +14,7 @@ export const AppDataSource = new DataSource({
   synchronize: true,
 
   //migrations credentials
-  migrationsRun: true,
-  migrations: ['dist/migrations/*.js'] || ['dist/src/migrations/*.js'],
-  migrationsTableName: 'migrations_history',
+  // migrationsRun: true,
+  // migrations: ['dist/migrations/*.ts'] || ['dist/src/migrations/*.ts'],
+  // migrationsTableName: 'migrations_history',
 });
