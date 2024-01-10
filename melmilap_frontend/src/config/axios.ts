@@ -1,8 +1,8 @@
+import { baseUrl } from "@/utils/helpers/baseUrl";
 import { getToken } from "@/utils/helpers/localStorage";
 import axios from "axios";
 const axiosInstance: any = axios.create({
-  baseURL: "",
-
+  baseURL: baseUrl,
   headers: {
     "Content-Type": "application/json",
   },
@@ -15,7 +15,6 @@ axiosInstance.interceptors.request.use(
 
     try {
       if (!!id_token) {
-        // @ts-ignore
         config.headers["Authorization"] = `Bearer ${id_token}`;
       }
 
