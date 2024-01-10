@@ -7,16 +7,14 @@ import { MoveRight } from "lucide-react";
 const Landing = () => {
   return (
     <main className="dynamic-x-padding dynamic-y-padding ">
-      <div className="absolute  h-[65%] right-20">
+      <div className="absolute  h-[65%] right-24">
         <Image src={heroImg} alt="" height={2000} width={2000} />
       </div>
       <div className="flex h-[70vh] flex-col justify-center w-1/2 pl-28 pr-10">
         <div className=" border-2 border-blue-700 space-y-3 ">
-          <div className="space-x-2 text-4xl tracking-wider ">
-            <span className="text-placeholder font-normal font-serif ">
-              Welcome to
-            </span>
-            <span className="text-[#FF6F91]">melmilap.com</span>
+          <div className="space-x-2 text-4xl tracking-wider  ">
+            <span className=" font-normal font-serif ">Welcome to</span>
+            <span className="text-theme">melmilap.com</span>
           </div>
           <TypeAnimation
             sequence={[
@@ -29,6 +27,7 @@ const Landing = () => {
               fontSize: "1.5rem",
               display: "inline-block",
               color: "#A0A3BD",
+              fontFamily: "serif",
             }}
             repeat={Infinity}
           />

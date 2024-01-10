@@ -8,14 +8,14 @@ import AuthRoute from "@/hoc/AuthRoute";
 
 const LandingLayout = ({ children }: { children: React.JSX.Element }) => {
   const router = useRouter();
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("data");
+  // const handleLogout = () => {
+  //   localStorage.removeItem("token");
+  //   localStorage.removeItem("refreshToken");
+  //   localStorage.removeItem("data");
 
-    notify("success", "Logout Successfully...");
-    router.push("/login");
-  };
+  //   notify("success", "Logout Successfully...");
+  //   router.push("/login");
+  // };
 
   return (
     <main className="">
@@ -59,7 +59,7 @@ const LandingLayout = ({ children }: { children: React.JSX.Element }) => {
 
           <div className="pl-10">
             <Button
-              onClick={handleLogout}
+              onClick={() => router.push("/login")}
               className={` cursor-pointer bg-[#008080] hover:bg-[#008080ce]`}
             >
               Login

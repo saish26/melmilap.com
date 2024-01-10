@@ -112,7 +112,7 @@ const Login = () => {
 
           <div className="pt-10">
             <Button
-              className="bg-[#164E99] hover:bg-[#164E99] h-14 text-lg w-full "
+              className="bg-theme hover:bg-theme h-14 text-lg w-full"
               type="submit"
               size="xl"
               loading={loading}
