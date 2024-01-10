@@ -34,9 +34,9 @@ const LandingLayout = ({ children }: { children: React.JSX.Element }) => {
         <section className="flex space-x-5 font-semibold">
           <div
             className={` cursor-pointer text-lg font-normal flex items-center justify-center ${
-              router.asPath == "/word" ? "text-[#008080]" : ""
+              router.asPath == "/" ? "text-[#008080]" : ""
             }`}
-            onClick={() => router.push("/word")}
+            onClick={() => router.push("/")}
           >
             Home
           </div>
@@ -44,15 +44,15 @@ const LandingLayout = ({ children }: { children: React.JSX.Element }) => {
             className={` cursor-pointer text-lg font-normal flex items-center justify-center ${
               router.asPath == "/word" ? "text-[#008080]" : ""
             }`}
-            onClick={() => router.push("/word")}
+            onClick={() => router.push("/")}
           >
             About
           </div>
           <div
             className={` cursor-pointer text-lg font-normal flex items-center justify-center  ${
-              router.asPath == "/verbs" ? "text-[#008080]" : ""
+              router.asPath == "/matches" ? "text-[#008080]" : ""
             }`}
-            onClick={() => router.push("/verbs")}
+            onClick={() => router.push("/matches")}
           >
             Matches
           </div>

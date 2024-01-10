@@ -1,4 +1,5 @@
 import { APILoginUser } from "@/apis/auth/auth";
+import ImageUpload from "@/components/common/ImageUpload";
 import CommonButton from "@/components/common/form/CommonButton";
 import CommonTextField from "@/components/common/form/CommonTextField";
 // import SmeNavBar from "@/components/partials/SmeNavBar";
@@ -19,8 +20,11 @@ const Login = () => {
   const {
     control,
     reset,
+    watch,
     formState: { errors },
     handleSubmit,
+    setValue,
+    getValues,
   } = useForm<ILoginData>({
     defaultValues: {
       email: "",
@@ -31,22 +35,21 @@ const Login = () => {
 
   const onSubmit: SubmitHandler<ILoginData> = async (data: any) => {
     try {
-      setLoading(true);
-      const formattedData = authDTO.login({ ...data, rememberMe: remember });
-      // const response: any = await APILoginUser(formattedData);
-      // const responseData: ILoginResponse = response?.data;
-      // localStorage.setItem("data", JSON.stringify(responseData));
-      // localStorage.setItem("token", responseData?.accessToken);
-      // localStorage.setItem("refreshToken", response?.refreshToken);
-      // notify("success", response?.message);
-      reset();
+      // setLoading(true);
+      // const formattedData = authDTO.login({ ...data, rememberMe: remember });
+      // // const response: any = await APILoginUser(formattedData);
+      // // const responseData: ILoginResponse = response?.data;
+      // // localStorage.setItem("data", JSON.stringify(responseData));
+      // // localStorage.setItem("token", responseData?.accessToken);
+      // // localStorage.setItem("refreshToken", response?.refreshToken);
+      // // notify("success", response?.message);
+      // reset();
     } catch (error: any) {
       setLoading(false);
       notify("error", error);
       console.log(error);
     }
   };
-
   useEffect(() => {
     if (isAuth) {
       router.back();
@@ -108,6 +111,15 @@ const Login = () => {
             {/* <div>
               <Link href="">Forgot password</Link>
             </div> */}
+          </div>
+          <div className="flex justify-end">
+            <span>Don&apos;t have an Account? </span>{" "}
+            <span
+              className="text-theme font-semibold px-2 cursor-pointer"
+              onClick={() => router.push("/register")}
+            >
+              Register
+            </span>
           </div>
 
           <div className="pt-10">
