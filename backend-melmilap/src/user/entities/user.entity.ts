@@ -81,15 +81,15 @@ export class User {
   )
   feature_images: FeatureImage[];
 
-  @ManyToOne(() => User, (connections: User) => connections.connected, {
-    cascade: ['insert', 'update'],
-  })
-  @JoinColumn({ name: 'user_id' })
-  connections: User[];
+  // @ManyToOne(() => User, (connections: User) => connections.connected, {
+  //   cascade: ['insert', 'update'],
+  // })
+  // @JoinColumn({ name: 'user_id' })
+  // connections: User[];
 
-  @ManyToOne(() => User, (connected: User) => connected.connections, {
-    cascade: ['insert', 'update'],
-  })
-  @JoinColumn({ name: 'user_id' })
-  connected: User[];
+  // @ManyToOne(() => User, (connected: User) => connected.connections, {
+  //   cascade: ['insert', 'update'],
+  // })
+  // @JoinColumn({ name: 'user_id' })
+  // connected: User[];
 }

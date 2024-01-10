@@ -6,10 +6,19 @@ import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 import { BcryptService } from './bcrypt.service';
 import { JwtService } from '@nestjs/jwt';
+import { LocalStrategy } from './strategy/local.strategy';
+import { JwtStrategy } from './strategy/jwt.strategy';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
   controllers: [AuthController],
-  providers: [AuthService, UserService, BcryptService, JwtService],
+  providers: [
+    AuthService,
+    UserService,
+    BcryptService,
+    JwtService,
+    LocalStrategy,
+    JwtStrategy,
+  ],
 })
 export class AuthModule {}

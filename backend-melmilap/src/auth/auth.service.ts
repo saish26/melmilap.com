@@ -47,7 +47,6 @@ export class AuthService {
       const user = await this.userService.isAuthenticatedUser({
         username,
       });
-
       if (
         user &&
         (await this.bcryptService.comparePassword(password, user.password))
@@ -73,5 +72,4 @@ export class AuthService {
       },
     );
   }
-
 }

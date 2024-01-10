@@ -5,11 +5,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { calculateJaccardSimilarity } from 'src/utils/helpers/calculateJaccardSimilarity';
+import { BcryptService } from 'src/auth/bcrypt.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepo: Repository<User>,
+    private readonly bService: BcryptService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -24,7 +26,15 @@ export class UserService {
           HttpStatus.BAD_REQUEST,
         );
       }
-      await this.userRepo.save(createUserDto);
+      const hashedPassword = await this.bService.hashPassword(
+        createUserDto.password,
+      );
+      const userdata = {
+        ...createUserDto,
+        password: hashedPassword,
+      };
+      console.log(userdata);
+      await this.userRepo.save(userdata);
       return;
     } catch (error) {
       throw new HttpException(error.status, error.message);
@@ -89,7 +99,7 @@ export class UserService {
     try {
       const user = await this.userRepo
         .createQueryBuilder('user')
-        .where('user.username = :username', { username: username })
+        .where('user.email = :email', { email: username })
         .getOne();
 
       return user;
