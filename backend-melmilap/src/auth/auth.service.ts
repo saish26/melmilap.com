@@ -3,12 +3,15 @@ import { UpdateAuthDto } from './dto/update-auth.dto';
 import { UserService } from 'src/user/user.service';
 import { BcryptService } from './bcrypt.service';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { LoginAuthDto } from './dto/create-auth.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly bcryptService: BcryptService,
+    private readonly jwtService: JwtService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -20,12 +23,23 @@ export class AuthService {
     }
   }
 
-  findAll() {
-    return `This action returns all auth`;
-  }
+  async login(loginAuthDto: LoginAuthDto) {
+    try {
+      const { password, ...rest } = await this.userService.isAuthenticatedUser(
+        loginAuthDto,
+      );
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
+      const token: any = await this.generateToken(rest);
+
+      return {
+        id: rest.id,
+        username: rest.email,
+        token,
+        refreshToken: '',
+      };
+    } catch (error) {
+      throw new HttpException(error.message, error.status);
+    }
   }
 
   async validateUser(username: string, password: string) {
@@ -47,11 +61,17 @@ export class AuthService {
     }
   }
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
+  public async generateToken(user: any): Promise<string> {
+    return this.jwtService.sign(
+      {
+        id: user.id,
+        username: user.username,
+      },
+      {
+        secret: process.env.JWT_SECRET || '!melmilap@2023',
+        expiresIn: '4days',
+      },
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
-  }
 }

@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { calculateJaccardSimilarity } from 'src/utils/helpers/calculateJaccardSimilarity';
 
 @Injectable()
 export class UserService {
@@ -30,17 +31,59 @@ export class UserService {
     }
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findMatch(id: string) {
+    try {
+      const user = await this.userRepo
+        .createQueryBuilder('user')
+        .leftJoin('user.hobbies', 'hobby')
+        .addSelect(['hobby.title'])
+        .where('user.id=:id', { id })
+        .getOne();
+
+      const allUsers = await this.userRepo
+        .createQueryBuilder('user')
+        .leftJoin('user.hobbies', 'hobby')
+        .addSelect(['hobby.title'])
+        .where('user.id <> :id', { id })
+        .getMany();
+
+      const value = this.matchPersonWithDatabase(user, allUsers);
+
+      return value;
+    } catch (error) {
+      throw new HttpException(error.message, error.status);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
+  matchPersonWithDatabase = async (personData: User, allUsers: User[]) => {
+    const personHobbies = personData.hobbies.map((hobby) => hobby.title);
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
+    const results = await Promise.all(
+      allUsers.map(async (user: any) => {
+        const userHobbies = user.hobbies.map((hobby) => hobby.title);
+        const similarity = calculateJaccardSimilarity(
+          personHobbies,
+          userHobbies,
+        );
+
+        if (similarity > 0.6) {
+          const matchedUser = await this.userRepo.findOneBy({ id: user?.id });
+          return {
+            matchedUser,
+            similarity,
+          };
+        }
+
+        // If similarity is not above the threshold, return null
+        return null;
+      }),
+    );
+
+    // Filter out null values (users with similarity below the threshold)
+    const filteredResults = results.filter((result) => result !== null);
+
+    return filteredResults;
+  };
 
   async isAuthenticatedUser({ username }) {
     try {

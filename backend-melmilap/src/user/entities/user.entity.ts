@@ -79,7 +79,7 @@ export class User {
     (featured_images: FeatureImage) => featured_images.user,
     { cascade: ['insert', 'update'] },
   )
-  featured_images: FeatureImage[];
+  feature_images: FeatureImage[];
 
   @ManyToOne(() => User, (connections: User) => connections.connected, {
     cascade: ['insert', 'update'],

@@ -15,7 +15,7 @@ export class FeatureImage {
   @Column()
   image_link: string;
 
-  @ManyToOne(() => User, (user: User) => user.featured_images, {
+  @ManyToOne(() => User, (user: User) => user.feature_images, {
     onDelete: 'CASCADE',
     nullable: true,
   })
