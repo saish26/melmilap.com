@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           name="viewport"
           content="width=device-width,initial-scale=1,minimum-scale=1,user-scalable=no"
         />
-        <link rel="icon" href="/favicon.svg" />
+        <link rel="icon" href="/favicon.png" />
         <meta name="theme-color" content="#317EFB" />
         <title>melmilap.com</title>
       </Head>

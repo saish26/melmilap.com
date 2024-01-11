@@ -16,7 +16,6 @@ const Login = () => {
   const router = useRouter();
   const isAuth = useIsAuth();
   const [loading, setLoading] = useState<boolean>(false);
-  const [remember, setRemember] = useState<boolean>(false);
   const {
     control,
     reset,
@@ -35,15 +34,13 @@ const Login = () => {
 
   const onSubmit: SubmitHandler<ILoginData> = async (data: any) => {
     try {
-      // setLoading(true);
-      // const formattedData = authDTO.login({ ...data, rememberMe: remember });
-      // // const response: any = await APILoginUser(formattedData);
-      // // const responseData: ILoginResponse = response?.data;
-      // // localStorage.setItem("data", JSON.stringify(responseData));
-      // // localStorage.setItem("token", responseData?.accessToken);
-      // // localStorage.setItem("refreshToken", response?.refreshToken);
-      // // notify("success", response?.message);
-      // reset();
+      setLoading(true);
+      const formattedData = authDTO.login(data);
+      const response: any = await APILoginUser(formattedData);
+      localStorage.setItem("token", response?.token);
+      localStorage.setItem("user-id", response?.id);
+      notify("success", "Login Successful!!");
+      router.push("/matches");
     } catch (error: any) {
       setLoading(false);
       notify("error", error);
@@ -100,12 +97,7 @@ const Login = () => {
 
           <div className="flex justify-between items-center pt-5 text-sm hover:cursor-pointer sm:text-lg">
             <div className="flex gap-2 items-center">
-              <Checkbox
-                size="xs"
-                color="green"
-                checked={remember}
-                onChange={(e) => setRemember(e.target.checked)}
-              />
+              <Checkbox size="xs" color="green" />
               Remember me
             </div>
             {/* <div>

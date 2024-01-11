@@ -53,9 +53,8 @@ export const authDTO = {
   },
   login: (data: ILoginData) => {
     return {
-      email: data?.email,
+      username: data?.email,
       password: data?.password,
-      appId: "lang-inst-g",
     };
   },
 };

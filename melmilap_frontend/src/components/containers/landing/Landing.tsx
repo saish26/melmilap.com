@@ -3,8 +3,10 @@ import heroImg from "@/assets/images/heroImage.png";
 import { TypeAnimation } from "react-type-animation";
 import { ActionIcon } from "@mantine/core";
 import { MoveRight } from "lucide-react";
+import { useRouter } from "next/router";
 
 const Landing = () => {
+  const router = useRouter();
   return (
     <main className="dynamic-x-padding dynamic-y-padding ">
       <div className="absolute  h-[65%] right-24">
@@ -18,7 +20,7 @@ const Landing = () => {
           </div>
           <TypeAnimation
             sequence={[
-              "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque earum, beatae sed itaque animi dolore dolor. Unde aliquid dolor optio cupiditate deleniti error quasi natus? Optio similique a quod nobis?",
+              "Fostering Love Beyond Boundaries, Where Dreams Unite and Journeys Begin – Discover Your Forever at MelMilap.com, Where Every Connection is a Celebration of Endless Love and Lasting Bliss!",
               1000,
             ]}
             wrapper="span"
@@ -32,7 +34,10 @@ const Landing = () => {
             repeat={Infinity}
           />
         </div>
-        <div className="text-placeholder mt-20 font-normal font-serif  py-4 text-2xl shadow-md border-custom pl-10 pr-5 flex justify-between cursor-pointer">
+        <div
+          className="text-placeholder mt-20 font-normal font-serif  py-4 text-2xl shadow-md border-custom pl-10 pr-5 flex justify-between cursor-pointer"
+          onClick={() => router.push("/login")}
+        >
           <span>Find your match</span>
           <ActionIcon>
             <MoveRight />

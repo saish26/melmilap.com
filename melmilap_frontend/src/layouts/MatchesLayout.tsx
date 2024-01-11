@@ -8,14 +8,13 @@ import AuthRoute from "@/hoc/AuthRoute";
 
 const MatchesLayout = ({ children }: { children: React.JSX.Element }) => {
   const router = useRouter();
-  // const handleLogout = () => {
-  //   localStorage.removeItem("token");
-  //   localStorage.removeItem("refreshToken");
-  //   localStorage.removeItem("data");
 
-  //   notify("success", "Logout Successfully...");
-  //   router.push("/login");
-  // };
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user-id");
+    notify("success", "Logout Successfully...");
+    router.push("/");
+  };
 
   return (
     <AuthRoute redirect="/login">
@@ -60,10 +59,10 @@ const MatchesLayout = ({ children }: { children: React.JSX.Element }) => {
 
             <div className="pl-10">
               <Button
-                onClick={() => router.push("/login")}
+                onClick={handleLogout}
                 className={` cursor-pointer bg-[#008080] hover:bg-[#008080ce]`}
               >
-                Login
+                Logout
               </Button>
             </div>
           </section>
