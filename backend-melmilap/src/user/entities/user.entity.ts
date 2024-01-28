@@ -36,11 +36,23 @@ export class User {
   password: string;
 
   @Column()
+  tags: string;
+
+  @Column()
+  status: string;
+
+  @Column()
+  description: string;
+
+  @Column({ nullable: true })
+  interest: string;
+
+  @Column()
   horoscope: string;
 
   @Column()
   date_of_birth: string;
-
+  
   @Column()
   relationship_status: string;
 

@@ -2,7 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { FeatureImageService } from './feature_image.service';
 import { CreateFeatureImageDto } from './dto/create-feature_image.dto';
 import { UpdateFeatureImageDto } from './dto/update-feature_image.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Feature images')
 @Controller('feature-image')
 export class FeatureImageController {
   constructor(private readonly featureImageService: FeatureImageService) {}
@@ -23,7 +25,10 @@ export class FeatureImageController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFeatureImageDto: UpdateFeatureImageDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateFeatureImageDto: UpdateFeatureImageDto,
+  ) {
     return this.featureImageService.update(+id, updateFeatureImageDto);
   }
 

@@ -2,7 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { UserDetailService } from './user_detail.service';
 import { CreateUserDetailDto } from './dto/create-user_detail.dto';
 import { UpdateUserDetailDto } from './dto/update-user_detail.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('User details')
 @Controller('user-detail')
 export class UserDetailController {
   constructor(private readonly userDetailService: UserDetailService) {}
@@ -23,7 +25,10 @@ export class UserDetailController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDetailDto: UpdateUserDetailDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateUserDetailDto: UpdateUserDetailDto,
+  ) {
     return this.userDetailService.update(+id, updateUserDetailDto);
   }
 

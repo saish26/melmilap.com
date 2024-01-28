@@ -16,9 +16,6 @@ export class Address {
   city: string;
 
   @Column()
-  contact: string;
-
-  @Column()
   street: string;
 
   @Column()

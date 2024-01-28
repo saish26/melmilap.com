@@ -10,6 +10,7 @@ import { SocialLinkModule } from './social_link/social_link.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppDataSource } from './config/database.config';
 import { AuthModule } from './auth/auth.module';
+import { ChromaModule } from './chroma/chroma.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { AuthModule } from './auth/auth.module';
     HobbyModule,
     SocialLinkModule,
     AuthModule,
+    ChromaModule,
   ],
   controllers: [AppController],
   providers: [AppService],

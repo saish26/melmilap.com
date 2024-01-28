@@ -3,14 +3,15 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
-  Delete,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDto, FindUserMatchDto } from './dto/create-user.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('User')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -20,8 +21,36 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
+  @Post('match/:id')
+  @UseInterceptors(ClassSerializerInterceptor)
+  findMatch(
+    @Param('id') id: string,
+    @Body() findUserMatchDto: FindUserMatchDto,
+  ) {
+    return this.userService.findMatch(id,findUserMatchDto);
+  }
+
+  @Get()
+  @UseInterceptors(ClassSerializerInterceptor)
+  findAll() {
+    return this.userService.findAll();
+  }
+
   @Get(':id')
-  findMatch(@Param('id') id: string) {
-    return this.userService.findMatch(id);
+  @UseInterceptors(ClassSerializerInterceptor)
+  findMatchByHobby(@Param('id') id: string) {
+    return this.userService.findMatchByHobby(id);
+  }
+
+  @Get('recommended/:id')
+  @UseInterceptors(ClassSerializerInterceptor)
+  findRecommended(@Param('id') id: string) {
+    return this.userService.recommended(id);
+  }
+
+  @Get('details/:id')
+  @UseInterceptors(ClassSerializerInterceptor)
+  findOne(@Param('id') id: string) {
+    return this.userService.findOne(id);
   }
 }

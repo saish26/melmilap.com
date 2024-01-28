@@ -8,6 +8,7 @@ import { BcryptService } from './bcrypt.service';
 import { JwtService } from '@nestjs/jwt';
 import { LocalStrategy } from './strategy/local.strategy';
 import { JwtStrategy } from './strategy/jwt.strategy';
+import { ChromaService } from 'src/chroma/chroma.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
@@ -19,6 +20,7 @@ import { JwtStrategy } from './strategy/jwt.strategy';
     JwtService,
     LocalStrategy,
     JwtStrategy,
+    ChromaService,
   ],
 })
 export class AuthModule {}

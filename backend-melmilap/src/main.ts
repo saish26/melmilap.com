@@ -2,6 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import helmet from 'helmet';
 import { ValidationPipe } from '@nestjs/common';
+import { SwaggerModule } from '@nestjs/swagger';
+import { swaggerConfig } from './config/swagger.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -10,7 +12,7 @@ async function bootstrap() {
 
   app.enableCors();
 
-  app.use(helmet())
+  app.use(helmet());
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -21,6 +23,9 @@ async function bootstrap() {
       transform: false,
     }),
   );
+
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('api', app, document);
 
   await app.listen(process.env.APP_PORT || 8080, () => {
     console.log('Server running on port:', process.env.APP_PORT);

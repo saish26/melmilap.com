@@ -2,7 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { SocialLinkService } from './social_link.service';
 import { CreateSocialLinkDto } from './dto/create-social_link.dto';
 import { UpdateSocialLinkDto } from './dto/update-social_link.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Social links')
 @Controller('social-link')
 export class SocialLinkController {
   constructor(private readonly socialLinkService: SocialLinkService) {}
@@ -23,7 +25,10 @@ export class SocialLinkController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSocialLinkDto: UpdateSocialLinkDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateSocialLinkDto: UpdateSocialLinkDto,
+  ) {
     return this.socialLinkService.update(+id, updateSocialLinkDto);
   }
 

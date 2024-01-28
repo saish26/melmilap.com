@@ -15,6 +15,9 @@ export class SocialLink {
   @Column()
   title: string;
 
+  @Column()
+  links: string;
+
   @ManyToOne(() => User, (user) => user.social_links, {
     onDelete: 'CASCADE',
     nullable: true,
