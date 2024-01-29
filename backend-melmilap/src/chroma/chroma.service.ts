@@ -12,7 +12,7 @@ export class ChromaService {
   async getOrCreateCollection(collectionName: string) {
     try {
       const embedder = new OpenAIEmbeddingFunction({
-        openai_api_key: process.env.OPENAI_API_KEY,
+        openai_api_key: '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',
       });
 
       const collection = await this.client.getOrCreateCollection({
