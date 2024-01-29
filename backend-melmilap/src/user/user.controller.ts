@@ -21,22 +21,34 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  @Post('match/:id')
+  @Post('interest/:id')
   @UseInterceptors(ClassSerializerInterceptor)
   findMatch(
     @Param('id') id: string,
     @Body() findUserMatchDto: FindUserMatchDto,
   ) {
-    return this.userService.findMatch(id,findUserMatchDto);
+    return this.userService.findMatch(id, findUserMatchDto);
   }
 
-  @Get()
+  @Get('all')
   @UseInterceptors(ClassSerializerInterceptor)
   findAll() {
     return this.userService.findAll();
   }
 
-  @Get(':id')
+  @Get('connection/:id/:personId')
+  @UseInterceptors(ClassSerializerInterceptor)
+  connectToUser(@Param('id') id: string, @Param('personId') personId: string) {
+    return this.userService.findAndConnect(id, personId);
+  }
+
+  @Get('connections/:id')
+  @UseInterceptors(ClassSerializerInterceptor)
+  findYourConnection(@Param('id') id: string) {
+    return this.userService.findYourConnection(id);
+  }
+
+  @Get('hobby/:id')
   @UseInterceptors(ClassSerializerInterceptor)
   findMatchByHobby(@Param('id') id: string) {
     return this.userService.findMatchByHobby(id);

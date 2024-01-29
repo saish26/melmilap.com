@@ -8,6 +8,8 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   OneToOne,
@@ -52,7 +54,7 @@ export class User {
 
   @Column()
   date_of_birth: string;
-  
+
   @Column()
   relationship_status: string;
 
@@ -93,15 +95,9 @@ export class User {
   )
   feature_images: FeatureImage[];
 
-  // @ManyToOne(() => User, (connections: User) => connections.connected, {
-  //   cascade: ['insert', 'update'],
-  // })
-  // @JoinColumn({ name: 'user_id' })
-  // connections: User[];
-
-  // @ManyToOne(() => User, (connected: User) => connected.connections, {
-  //   cascade: ['insert', 'update'],
-  // })
-  // @JoinColumn({ name: 'user_id' })
-  // connected: User[];
+  @ManyToMany(() => User, {
+    cascade: ['insert', 'update'],
+  })
+  @JoinTable({ name: 'users_connections' })
+  connections: User[];
 }

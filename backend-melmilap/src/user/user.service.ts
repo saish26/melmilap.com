@@ -122,6 +122,22 @@ export class UserService {
     }
   }
 
+  async findAndConnect(id: string, personId: string) {
+    try {
+      let user = await this.userRepo.findOneBy({ id });
+      const personToBeConnected = await this.userRepo.findOneBy({
+        id: personId,
+      });
+
+      user.connections = [personToBeConnected];
+      await this.userRepo.save(user);
+
+      return;
+    } catch (error) {
+      throw new HttpException(error.message, error.status);
+    }
+  }
+
   async findMatchByHobby(id: string) {
     try {
       const user = await this.userRepo
@@ -158,7 +174,11 @@ export class UserService {
         );
 
         if (similarity > 0.6) {
-          const matchedUser = await this.userRepo.findOneBy({ id: user?.id });
+          const matchedUser = await this.userRepo
+            .createQueryBuilder('user')
+            .leftJoinAndSelect('user.feature_images', 'feature_image')
+            .where('user.id=:id', { id: user?.id })
+            .getOne();
           return {
             matchedUser,
             similarity,
@@ -175,6 +195,21 @@ export class UserService {
 
     return filteredResults;
   };
+
+  async findYourConnection(id: string) {
+    try {
+      const connections = await this.userRepo
+        .createQueryBuilder('user')
+        .leftJoinAndSelect('user.feature_images', 'feature_image')
+        .leftJoinAndSelect('user.connections', 'connection')
+        .where('user.id=:id', { id })
+        .getMany();
+
+      return connections;
+    } catch (error) {
+      throw new HttpException(error.message, error.status);
+    }
+  }
 
   async isAuthenticatedUser({ username }) {
     try {
