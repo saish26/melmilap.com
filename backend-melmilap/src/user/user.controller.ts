@@ -36,7 +36,7 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  @Get('connection/:id/:personId')
+  @Get('connect/:id/:personId')
   @UseInterceptors(ClassSerializerInterceptor)
   connectToUser(@Param('id') id: string, @Param('personId') personId: string) {
     return this.userService.findAndConnect(id, personId);
