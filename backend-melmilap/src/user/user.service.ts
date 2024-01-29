@@ -78,6 +78,9 @@ export class UserService {
 
   async findMatch(id: string, findUserMatchDto: FindUserMatchDto) {
     try {
+      const user = await this.userRepo.findOneBy({ id });
+      const gender = user.gender == 'm' ? 'f' : 'm';
+
       const matches: User[] = [];
 
       const collection = await this.chromaService.getOrCreateCollection(
@@ -94,6 +97,7 @@ export class UserService {
           .createQueryBuilder('user')
           .leftJoinAndSelect('user.feature_images', 'feature_image')
           .where('user.id=:id', { id: id.toString() })
+          .andWhere('user.gender=:gender', { gender })
           .getOne();
 
         matches.push(user);
@@ -147,11 +151,14 @@ export class UserService {
         .where('user.id=:id', { id })
         .getOne();
 
+      const gender = user.gender == 'm' ? 'f' : 'm';
+
       const allUsers = await this.userRepo
         .createQueryBuilder('user')
         .leftJoin('user.hobbies', 'hobby')
         .addSelect(['hobby.title'])
         .where('user.id <> :id', { id })
+        .andWhere('user.gender=:gender', { gender })
         .getMany();
 
       const result = this.matchPersonWithDatabase(user, allUsers);
