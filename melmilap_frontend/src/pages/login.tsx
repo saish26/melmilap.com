@@ -13,126 +13,129 @@ import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 const Login = () => {
-  const router = useRouter();
-  const isAuth = useIsAuth();
-  const [loading, setLoading] = useState<boolean>(false);
-  const {
-    control,
-    reset,
-    watch,
-    formState: { errors },
-    handleSubmit,
-    setValue,
-    getValues,
-  } = useForm<ILoginData>({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-    mode: "onChange",
-  });
+    const router = useRouter();
+    const isAuth = useIsAuth();
+    const [loading, setLoading] = useState<boolean>(false);
+    const {
+        control,
+        reset,
+        watch,
+        formState: { errors },
+        handleSubmit,
+        setValue,
+        getValues,
+    } = useForm<ILoginData>({
+        defaultValues: {
+            email: "",
+            password: "",
+        },
+        mode: "onChange",
+    });
 
-  const onSubmit: SubmitHandler<ILoginData> = async (data: any) => {
-    try {
-      setLoading(true);
-      const formattedData = authDTO.login(data);
-      const response: any = await APILoginUser(formattedData);
-      localStorage.setItem("token", response?.token);
-      localStorage.setItem("user-id", response?.id);
-      notify("success", "Login Successful!!");
-      router.push("/matches");
-    } catch (error: any) {
-      setLoading(false);
-      notify("error", error);
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    if (isAuth) {
-      router.back();
-    }
-  }, [isAuth]);
+    const onSubmit: SubmitHandler<ILoginData> = async (data: any) => {
+        try {
+            setLoading(true);
+            const formattedData = authDTO.login(data);
+            const response: any = await APILoginUser(formattedData);
+            localStorage.setItem("token", response?.token);
+            localStorage.setItem("user-id", response?.id);
+            notify("success", "Login Successful!!");
+            router.push("/matches");
+        } catch (error: any) {
+            setLoading(false);
+            notify("error", error);
+            console.log(error);
+        }
+    };
+    useEffect(() => {
+        if (isAuth) {
+            router.back();
+        }
+    }, [isAuth]);
 
-  return (
-    <main className="w-full h-[100vh] flex justify-center items-center">
-      <div className="w-[450px] card-layout p-5 lg:p-10 bg-white space-y-6 ">
-        <h1 className="text-title-active font-medium text-2xl lg:text-3xl pb-5">
-          Sign In
-        </h1>
-        <span className="text-lg">Login to your existing account</span>
-        <form className="pt-5 space-y-5" onSubmit={handleSubmit(onSubmit)}>
-          <Controller
-            name="email"
-            rules={{
-              required: "required",
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "invalid email address",
-              },
-            }}
-            control={control}
-            render={({ field }) => (
-              <CommonTextField
-                {...field}
-                placeholder="Email"
-                error={errors.email?.message}
-              />
-            )}
-          />
-          <Controller
-            name="password"
-            rules={{
-              required: "required",
-            }}
-            control={control}
-            render={({ field }) => (
-              <CommonTextField
-                {...field}
-                type="password"
-                placeholder="Password"
-                error={errors.password?.message}
-              />
-            )}
-          />
+    return (
+        <main className="w-full h-[100vh] flex justify-center items-center">
+            <div className="w-[450px] card-layout p-5 lg:p-10 bg-white space-y-6 ">
+                <h1 className="text-title-active font-medium text-2xl lg:text-3xl pb-5">
+                    Sign In
+                </h1>
+                <span className="text-lg">Login to your existing account</span>
+                <form
+                    className="pt-5 space-y-5"
+                    onSubmit={handleSubmit(onSubmit)}
+                >
+                    <Controller
+                        name="email"
+                        rules={{
+                            required: "required",
+                            pattern: {
+                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                message: "invalid email address",
+                            },
+                        }}
+                        control={control}
+                        render={({ field }) => (
+                            <CommonTextField
+                                {...field}
+                                placeholder="Email"
+                                error={errors.email?.message}
+                            />
+                        )}
+                    />
+                    <Controller
+                        name="password"
+                        rules={{
+                            required: "required",
+                        }}
+                        control={control}
+                        render={({ field }) => (
+                            <CommonTextField
+                                {...field}
+                                type="password"
+                                placeholder="Password"
+                                error={errors.password?.message}
+                            />
+                        )}
+                    />
 
-          <div className="flex justify-between items-center pt-5 text-sm hover:cursor-pointer sm:text-lg">
-            <div className="flex gap-2 items-center">
-              <Checkbox size="xs" color="green" />
-              Remember me
-            </div>
-            {/* <div>
+                    <div className="flex justify-between items-center pt-5 text-sm hover:cursor-pointer sm:text-lg">
+                        <div className="flex gap-2 items-center">
+                            <Checkbox size="xs" color="green" />
+                            Remember me
+                        </div>
+                        {/* <div>
               <Link href="">Forgot password</Link>
             </div> */}
-          </div>
-          <div className="flex justify-end">
-            <span>Don&apos;t have an Account? </span>{" "}
-            <span
-              className="text-theme font-semibold px-2 cursor-pointer"
-              onClick={() => router.push("/register")}
-            >
-              Register
-            </span>
-          </div>
+                    </div>
+                    <div className="flex justify-end">
+                        <span>Don&apos;t have an Account? </span>{" "}
+                        <span
+                            className="text-theme font-semibold px-2 cursor-pointer"
+                            onClick={() => router.push("/register")}
+                        >
+                            Register
+                        </span>
+                    </div>
 
-          <div className="pt-10">
-            <Button
-              className="bg-theme hover:bg-theme h-14 text-lg w-full"
-              type="submit"
-              size="xl"
-              loading={loading}
-            >
-              Sign in
-            </Button>
-          </div>
-          {/* <div className="flex w-full justify-end py-2">
+                    <div className="pt-10">
+                        <Button
+                            className="bg-theme hover:bg-theme h-14 text-lg w-full"
+                            type="submit"
+                            size="xl"
+                            loading={loading}
+                        >
+                            Sign in
+                        </Button>
+                    </div>
+                    {/* <div className="flex w-full justify-end py-2">
             <span>
               Don&apos;t have an account? <Link href="/login">Sign Up</Link>
             </span>
           </div> */}
-        </form>
-      </div>
-    </main>
-  );
+                </form>
+            </div>
+        </main>
+    );
 };
 
 // Login.Layout = SmeNavBar;
